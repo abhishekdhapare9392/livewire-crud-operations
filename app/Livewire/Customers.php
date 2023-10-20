@@ -8,13 +8,19 @@ use App\Models\Customer;
 class Customers extends Component
 {
     public $customers = array();
+    public $search = "";
 
-    public function mount(){
-        $this->customers = Customer::all();
-    }
+    // public function mount(){
+    //     $this->customers = Customer::all();
+    // }
 
     public function render()
     {
+        if(! $this->search){
+            $this->customers = Customer::all();
+        } else {
+            $this->customers = Customer::where('name', 'like', "%".$this->search."%")->get();
+        }
         return view('livewire.customers');
     }
 
